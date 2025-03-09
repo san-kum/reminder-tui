@@ -1,1 +1,1 @@
-# reminder-tui
+# CLI NoteTaker
