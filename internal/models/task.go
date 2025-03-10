@@ -56,3 +56,73 @@ func (t *Task) SetReminderPeriod(period time.Duration) {
 	t.ReminderAt = t.DueDate.Add(-period)
 	t.UpdatedAt = time.Now()
 }
+
+func (t *Task) MarkInProgress() {
+	t.Status = TaskStatusCompleted
+	t.UpdatedAt = time.Now()
+}
+
+func (t *Task) Complete() {
+	t.Status = TaskStatusCompleted
+	t.UpdatedAt = time.Now()
+}
+
+func (t *Task) Update(title, description string, dueDate time.Time) {
+	t.Title = title
+	t.Description = description
+	t.DueDate = dueDate
+	t.UpdatedAt = time.Now()
+
+	offset := t.DueDate.Sub(t.ReminderAt)
+	t.ReminderAt = dueDate.Add(-offset)
+}
+
+func (t *Task) IsOverDue() bool {
+	return time.Now().After(t.DueDate) && t.Status != TaskStatusCompleted
+}
+
+func (t *Task) UpdateStatus() {
+	if t.Status == TaskStatusCompleted {
+		return
+	}
+
+	if t.IsOverDue() {
+		t.Status = TaskStatusOverdue
+	}
+}
+
+
+func (t *Task) AddTag(tag string){
+  for _, existingTag := range t.Tags{
+    if existingTag == tag {
+      return
+    }
+  }
+  t.Tags = append(t.Tags, tag)
+  t.UpdatedAt = time.Now()
+}
+
+func (t* Task) RemoveTag(tag string){
+  for i, existingTag := range t.Tags{
+    if existingTag == tag {
+      t.Tags = append(t.Tags, t.Tags[i+1:]...)
+      t.UpdatedAt = time.Now()
+      return
+    }
+  }
+}
+
+
+
+func (t *Task) SetPriority(priority Priority){
+  t.Priority = priority
+  t.UpdatedAt = time.Now()
+}
+
+func (t *Task) LinkToNote(noteID NoteID){
+  t.NoteID = noteID
+  t.UpdatedAt = time.Now()
+}
+
+
+
