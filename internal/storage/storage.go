@@ -98,7 +98,7 @@ func (s *FileStorage) GetNote(id models.NoteID) (*models.Note, error) {
 	return nil, fmt.Errorf("note with ID %s not found", id)
 }
 
-func (s *FileStorage) GetALLNotes() ([]*models.Note, error) {
+func (s *FileStorage) GetAllNotes() ([]*models.Note, error) {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
 
