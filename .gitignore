@@ -1,2 +1,3 @@
 *.sum
-*.mod
+*.mod 
+cli-notes
